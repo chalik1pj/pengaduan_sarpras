@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Filters;
+
+use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+
+/**
+ * PetugasFilter — hanya level 'petugas' yang bisa akses /petugas/*
+ * Level admin dan super_admin diarahkan ke admin dashboard jika mencoba akses /petugas/*
+ */
+class PetugasFilter implements FilterInterface
+{
+    public function before(RequestInterface $request, $arguments = null)
+    {
+        if (!session()->get('admin_logged_in')) {
+            return redirect()->to(base_url('admin/auth/login'))->with('error', 'Silakan login sebagai petugas.');
+        }
+
+        if (session()->get('admin_status') === 'nonaktif') {
+            session()->destroy();
+            return redirect()->to(base_url('admin/auth/login'))->with('error', 'Akun Anda telah dinonaktifkan.');
+        }
+
+        // Hanya petugas yang bisa akses halaman petugas
+        if (session()->get('admin_level') !== 'petugas') {
+            return redirect()->to(base_url('admin/dashboard'))->with('info', 'Akses halaman petugas tidak diizinkan untuk level admin/super admin.');
+        }
+    }
+
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    {
+        // Cegah browser meng-cache halaman yang memerlukan autentikasi.
+        // Ini memastikan tombol Back tidak menampilkan halaman setelah logout.
+        return $response
+            ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->setHeader('Pragma', 'no-cache')
+            ->setHeader('Expires', '0');
+    }
+}

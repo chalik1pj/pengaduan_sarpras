@@ -1,0 +1,76 @@
+2026-07-06 07:06:38 | GET: {"gedung":"3","ruangan":"","q":""}
+2026-07-06 07:06:38 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 3
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:06:48 | GET: {"gedung":"2","ruangan":"44","q":""}
+2026-07-06 07:06:48 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 2
+AND `barang`.`id_ruangan` = 44
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:06:53 | GET: {"gedung":"","ruangan":"","q":""}
+2026-07-06 07:06:53 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:06:55 | GET: {"gedung":"1","ruangan":"","q":""}
+2026-07-06 07:06:55 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 1
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:06:57 | GET: {"gedung":"2","ruangan":"","q":""}
+2026-07-06 07:06:57 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 2
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:06:59 | GET: {"gedung":"1","ruangan":"","q":""}
+2026-07-06 07:06:59 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 1
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:07:01 | GET: {"gedung":"3","ruangan":"","q":""}
+2026-07-06 07:07:01 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 3
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:07:27 | GET: []
+2026-07-06 07:07:27 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:07:30 | GET: {"gedung":"3","ruangan":"","q":""}
+2026-07-06 07:07:30 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 3
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:07:50 | GET: {"gedung":"","ruangan":"44","q":""}
+2026-07-06 07:07:50 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `barang`.`id_ruangan` = 44
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
+2026-07-06 07:07:53 | GET: {"gedung":"2","ruangan":"","q":""}
+2026-07-06 07:07:53 | SQL: SELECT `barang`.*, `ruangan`.`nama_ruangan`, `ruangan`.`lantai`, `gedung`.`nama_gedung`, `gedung`.`id_gedung`
+FROM `barang`
+JOIN `ruangan` ON `ruangan`.`id_ruangan` = `barang`.`id_ruangan`
+JOIN `gedung` ON `gedung`.`id_gedung` = `ruangan`.`id_gedung`
+WHERE `gedung`.`id_gedung` = 2
+ORDER BY `gedung`.`nama_gedung` ASC, `ruangan`.`nama_ruangan` ASC, `barang`.`nama_barang` ASC
