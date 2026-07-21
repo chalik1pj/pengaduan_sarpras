@@ -1,5 +1,5 @@
 # 📋 Sistem Pengaduan & Manajemen Fasilitas Kampus
-### STIKOM Tunas Bangsa — Pematangsiantar
+### STIKOM Tunas Bangsa Pematangsiantar
 
 Aplikasi web untuk pelaporan, penanganan pengaduan fasilitas sarana prasarana kampus, serta pengelolaan inventaris barang ruangan. Dibangun menggunakan **CodeIgniter 4** dan desain **Modern Dark UI**.
 
@@ -31,7 +31,7 @@ Aplikasi web untuk pelaporan, penanganan pengaduan fasilitas sarana prasarana ka
 
 ## 🚀 Instalasi
 
-### Langkah 1 — Import Database
+### Langkah 1 Import Database
 
 1. Buka **phpMyAdmin** → `http://localhost/phpmyadmin`
 2. Buat database baru bernama `db_pengaduan_fasilitas`
@@ -44,14 +44,14 @@ Aplikasi web untuk pelaporan, penanganan pengaduan fasilitas sarana prasarana ka
    database/migrations/additional.sql
    ```
 
-### Langkah 2 — Install Library Composer
+### Langkah 2 Install Library Composer
 
 Jalankan perintah berikut pada terminal di folder project untuk mengunduh library cetak dokumen:
 ```bash
 composer require "phpoffice/phpword:^1.4" "phpoffice/phpspreadsheet:^2.4" "dompdf/dompdf:^2.0"
 ```
 
-### Langkah 3 — Konfigurasi `.env`
+### Langkah 3 Konfigurasi `.env`
 
 File `.env` sudah berada di root project. Pastikan konfigurasi database sudah benar:
 
@@ -67,7 +67,7 @@ Untuk fitur **Notifikasi WhatsApp**, isi token Fonnte:
 app.fonnteToken = 'TOKEN_FONNTE_ANDA'
 ```
 
-### Langkah 4 — Akses Aplikasi
+### Langkah 4 Akses Aplikasi
 
 Buka browser dan kunjungi:
 ```
@@ -138,7 +138,7 @@ pengaduan_sarpras/
 | `/admin/auth/login` | GET/POST | Publik | Halaman Login Admin / Super Admin / Petugas |
 | `/mahasiswa/dashboard` | GET | Mahasiswa | Dashboard Statistik Mahasiswa |
 | `/mahasiswa/pengaduan/buat` | GET/POST | Mahasiswa | Form Buat Pengaduan Fasilitas |
-| `/petugas/dashboard` | GET | Petugas | Portal Petugas — Daftar Tugas Penanganan |
+| `/petugas/dashboard` | GET | Petugas | Portal Petugas   Daftar Tugas Penanganan |
 | `/admin/dashboard` | GET | Admin / Super Admin | Dashboard Utama Admin |
 | `/admin/pengaduan` | GET | Admin / Super Admin | Verifikasi & Penugasan Petugas |
 | `/admin/barang` | GET | Admin / Super Admin | Manajemen Inventaris Barang |
