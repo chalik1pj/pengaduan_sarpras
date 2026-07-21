@@ -766,9 +766,6 @@ class BarangController extends BaseController
         exit;
     }
 
-    // ================================================================
-    // BUILD HTML untuk DOMPDF (PDF)
-    // ================================================================
     private function buildHtmlCetak(array $ruanganData): string
     {
         // Logo sebagai base64 agar bisa dirender oleh dompdf
@@ -779,10 +776,9 @@ class BarangController extends BaseController
 
         $html  = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
         $html .= '<style>';
-        $html .= 'body { font-family: "Times New Roman", Times, serif; font-size: 12pt; margin: 0; padding: 0; }';
-        $html .= '.page { page-break-after: always; padding: 1cm; }';
+        $html .= 'body { font-family: "Times New Roman", Times, serif; font-size: 12pt; margin: 0; padding: 0cm; }';
+        $html .= '.page { page-break-after: always; padding: 0cm; }';
         $html .= '.page:last-child { page-break-after: avoid; }';
-        /* Kop: posisi relatif agar logo bisa absolute di dalamnya */
         $html .= '.kop-outer { position: relative; border-bottom: 3px double #000; margin-bottom: 14px; padding-bottom: 6px; min-height: 72px; }';
         $html .= '.kop-logo-kiri { position: absolute; left: 0; top: 0; height: 68px; width: auto; z-index: 0; }';
         $html .= '.kop-logo-kanan { position: absolute; right: 0; top: 4px; height: 45px; width: auto; z-index: 0; }';

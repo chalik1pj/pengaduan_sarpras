@@ -5,13 +5,13 @@
 
 <div class="flex justify-between items-center mb-4">
   <div><h2>Barang / Fasilitas</h2><p class="text-muted text-sm"><?= count($items) ?> item terdaftar</p></div>
-  <div class="flex gap-2 flex-wrap">
+  <div class="flex items-center gap-3 flex-wrap" style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
     <?php if (session()->get('admin_level') === 'super_admin'): ?>
     <?php
       $previewQuery = http_build_query(array_filter(['gedung' => $filterGedung]));
       $previewUrl   = base_url('admin/barang/cetak/preview') . ($previewQuery ? '?'.$previewQuery : '');
     ?>
-    <a href="<?= $previewUrl ?>" class="btn btn-outline btn-sm" style="display:flex;align-items:center;gap:0.4rem">
+    <a href="<?= $previewUrl ?>" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:0.4rem">
       🖨️ Preview &amp; Cetak
     </a>
     <?php endif; ?>
