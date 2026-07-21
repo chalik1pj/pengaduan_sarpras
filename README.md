@@ -1,7 +1,7 @@
-# 📋 Sistem Pengaduan Fasilitas Kampus
+# 📋 Sistem Pengaduan & Manajemen Fasilitas Kampus
 ### STIKOM Tunas Bangsa — Pematangsiantar
 
-Aplikasi web untuk pelaporan dan pengelolaan pengaduan fasilitas sarana prasarana kampus, dibangun dengan **CodeIgniter 4** dan desain **Modern Dark UI**.
+Aplikasi web untuk pelaporan, penanganan pengaduan fasilitas sarana prasarana kampus, serta pengelolaan inventaris barang ruangan. Dibangun menggunakan **CodeIgniter 4** dan desain **Modern Dark UI**.
 
 ---
 
@@ -9,25 +9,23 @@ Aplikasi web untuk pelaporan dan pengelolaan pengaduan fasilitas sarana prasaran
 
 | Fitur | Keterangan |
 |---|---|
-| 🎓 **Login Mahasiswa** | Login via NIM atau Email |
-| 📝 **Buat Pengaduan** | Form dengan cascading dropdown Gedung → Ruangan → Barang |
-| 📸 **Upload Foto Bukti** | Maks. 3 foto, masing-masing maks. 1MB |
-| 📱 **Notifikasi WhatsApp** | Petugas dapat notif WA otomatis via Fonnte API |
-| 📊 **Dashboard Admin** | Statistik, grafik, dan manajemen pengaduan |
-| 🏢 **Manajemen Aset** | CRUD Gedung, Ruangan, Barang |
-| 👥 **Manajemen Pengguna** | CRUD Petugas (super_admin only) + status mahasiswa |
-| 📈 **Tracking Status** | Progress bar + timeline log perubahan status |
-| 📱 **Responsive** | Tampilan mobile-friendly |
+| 🎓 **Portal Mahasiswa** | Login via NIM/Email, buat pengaduan dengan cascading dropdown (Gedung → Ruangan → Barang), upload max 3 foto bukti, & tracking status real-time. |
+| 👮 **Portal Petugas** | Halaman khusus petugas untuk melihat tugas pengaduan yang diberikan, mengisi laporan progres, dan mengunggah foto bukti penanganan. |
+| 🏢 **Admin & Super Admin Panel** | Manajemen Pengaduan (verifikasi & penugasan petugas), Manajemen Gedung, Ruangan, Barang/Fasilitas, Mahasiswa, dan Petugas. |
+| 📱 **Notifikasi WhatsApp (Fonnte API)** | Notifikasi WA otomatis ke Admin/Super Admin saat mahasiswa mengadu, notif ke Petugas saat ditugaskan, dan notif ke Admin saat Petugas memperbarui progres. |
+| 🖨️ **Preview & Cetak Inventaris** | Fitur cetak inventaris barang per ruangan (hanya `super_admin`) dengan **Halaman Preview Live**, multi-select ruangan, font Times New Roman, Kop Surat bertanda tangan lengkap + 2 Logo (posisi *behind text*), serta unduh format **PDF**, **DOCX**, dan **XLSX**. |
+| 🔒 **Keamanan & Anti-BFCache** | Guard session anti-back setelah logout dengan header `Cache-Control: no-store` dan BFCache script guard. |
+| 📱 **Responsive UI** | Tampilan modern dark theme dengan visual konsisten dan responsif di perangkat mobile/desktop. |
 
 ---
 
-## 🛠️ Requirements
+## 🛠️ Requirements & Dependensi
 
-- PHP 8.0+
-- MySQL / MariaDB 5.7+
-- XAMPP (atau server web lainnya)
-- Composer (sudah terinstall di `C:\xampp\php\`)
-- Akun Fonnte (untuk notifikasi WhatsApp)
+- **PHP 8.0+** (dengan ekstensi `extension=gd` diaktifkan untuk pembuatan PDF/Gambar)
+- **MySQL / MariaDB 5.7+**
+- **XAMPP** (atau web server Apache/Nginx lain)
+- **Composer** (untuk library `dompdf/dompdf`, `phpoffice/phpword`, `phpoffice/phpspreadsheet`)
+- Akun **Fonnte API** (untuk fitur notifikasi WhatsApp)
 
 ---
 
@@ -41,14 +39,21 @@ Aplikasi web untuk pelaporan dan pengelolaan pengaduan fasilitas sarana prasaran
    ```
    database/migrations/sistem_pengaduan_fasilitas_kampus.sql
    ```
-4. Import file SQL tambahan (menambah kolom & trigger):
+4. Import file SQL tambahan (menambah kolom, trigger, & tabel pendukung):
    ```
    database/migrations/additional.sql
    ```
 
-### Langkah 2 — Konfigurasi `.env`
+### Langkah 2 — Install Library Composer
 
-File `.env` sudah ada di root project. Pastikan konfigurasi database sesuai:
+Jalankan perintah berikut pada terminal di folder project untuk mengunduh library cetak dokumen:
+```bash
+composer require "phpoffice/phpword:^1.4" "phpoffice/phpspreadsheet:^2.4" "dompdf/dompdf:^2.0"
+```
+
+### Langkah 3 — Konfigurasi `.env`
+
+File `.env` sudah berada di root project. Pastikan konfigurasi database sudah benar:
 
 ```env
 database.default.hostname = localhost
@@ -57,14 +62,12 @@ database.default.username = root
 database.default.password = 
 ```
 
-Untuk fitur **notifikasi WhatsApp**, isi token Fonnte:
+Untuk fitur **Notifikasi WhatsApp**, isi token Fonnte:
 ```env
 app.fonnteToken = 'TOKEN_FONNTE_ANDA'
 ```
 
-> 📖 Lihat **[README-FONNTE.md](README-FONNTE.md)** untuk panduan mendapatkan token.
-
-### Langkah 3 — Akses Aplikasi
+### Langkah 4 — Akses Aplikasi
 
 Buka browser dan kunjungi:
 ```
@@ -73,19 +76,14 @@ http://localhost/pengaduan_sarpras/public/
 
 ---
 
-## 🔐 Akun Default
+## 🔐 Akun Default & Hak Akses
 
-### Admin
-| Field | Value |
-|---|---|
-| Email | `admin@tunasbangsa.ac.id` |
-| Password | `password` |
-| Level | `super_admin` |
-
-> ⚠️ **SEGERA GANTI PASSWORD** setelah login pertama melalui menu Petugas!
-
-### Mahasiswa
-Mahasiswa dapat **mendaftar sendiri** melalui halaman Register, atau admin membuat akun baru.
+| Role | Access URL | Credentials Default | Hak Akses Utama |
+|---|---|---|---|
+| **Super Admin** | `/admin/auth/login` | `admin@tunasbangsa.ac.id` / `password` | Akses Penuh (Manajemen Petugas, Verifikasi Pengaduan, Cetak/Preview Inventaris PDF/DOCX/XLSX) |
+| **Admin** | `/admin/auth/login` | *Dibuat oleh Super Admin* | Verifikasi pengaduan, menugaskan petugas, manajemen fasilitas & mahasiswa |
+| **Petugas** | `/admin/auth/login` | *Dibuat oleh Super Admin* | Otomatis diarahkan ke Portal Petugas (`/petugas/dashboard`), mengisi laporan progres & bukti foto penanganan |
+| **Mahasiswa** | `/auth/login` | *Register Mandiri* / Admin | Membuat pengaduan kerusakan fasilitas & memantau status histori |
 
 ---
 
@@ -95,87 +93,101 @@ Mahasiswa dapat **mendaftar sendiri** melalui halaman Register, atau admin membu
 pengaduan_sarpras/
 ├── app/
 │   ├── Config/
-│   │   ├── Routes.php          ← Semua routing
-│   │   └── Filters.php         ← Auth filter terdaftar
+│   │   ├── Routes.php          ← Routing aplikasi (Auth, Mahasiswa, Petugas, Admin, Cetak)
+│   │   └── Filters.php         ← Filter auth, admin, & super_admin
 │   ├── Controllers/
-│   │   ├── Auth/               ← Login, Register, Logout
-│   │   ├── Mahasiswa/          ← Dashboard, Pengaduan, Profil
-│   │   ├── Admin/              ← Dashboard, Pengaduan, CRUD
-│   │   └── Api/                ← Cascading dropdown API
+│   │   ├── Auth/               ← Auth Mahasiswa & Admin/Petugas
+│   │   ├── Mahasiswa/          ← Dashboard, Form Pengaduan, Profil Mahasiswa
+│   │   ├── Petugas/            ← Dashboard Petugas & Laporan Progres Penanganan
+│   │   ├── Admin/              ← Dashboard Admin, Verifikasi, BarangController (CRUD & Cetak)
+│   │   └── Api/                ← Cascading dropdown API (Gedung → Ruangan → Barang)
 │   ├── Filters/
-│   │   ├── AuthFilter.php      ← Guard mahasiswa
-│   │   └── AdminFilter.php     ← Guard admin/petugas
+│   │   ├── AuthFilter.php      ← Middleware Mahasiswa
+│   │   ├── AdminFilter.php     ← Middleware Admin/Petugas
+│   │   └── SuperAdminFilter.php← Middleware Khusus Super Admin (Cetak)
 │   ├── Helpers/
-│   │   └── whatsapp_helper.php ← Fonnte WA notification
-│   ├── Models/                 ← Semua Model database
+│   │   └── whatsapp_helper.php ← Fonnte WA notification helper
+│   ├── Models/                 ← Models (Pengaduan, Barang, Ruangan, Gedung, Petugas, dll)
 │   └── Views/
-│       ├── layouts/            ← Template auth, mahasiswa, admin
-│       ├── auth/               ← Login, Register, Login Admin
-│       ├── mahasiswa/          ← Views mahasiswa
-│       └── admin/              ← Views admin
+│       ├── layouts/            ← Layout Auth, Mahasiswa, Admin, & Petugas
+│       ├── auth/               ← Tampilan Login & Register
+│       ├── mahasiswa/          ← Tampilan Mahasiswa
+│       ├── petugas/            ← Tampilan Portal Petugas
+│       └── admin/              ← Tampilan Admin & Preview Cetak Barang
 ├── database/migrations/
-│   ├── sistem_pengaduan_fasilitas_kampus.sql  ← SQL utama
-│   └── additional.sql          ← SQL tambahan (foto, WA, trigger)
+│   ├── sistem_pengaduan_fasilitas_kampus.sql
+│   └── additional.sql
 ├── public/
-│   └── assets/
-│       ├── css/style.css       ← Design system
-│       └── js/
-│           ├── main.js         ← Sidebar, dropdown, upload
-│           └── admin.js        ← Chart.js, modal helpers
+│   ├── assets/
+│   │   ├── css/style.css       ← Modern Dark UI Styling
+│   │   ├── img/                ← Logo Kiri & Logo Kanan untuk Kop Surat
+│   │   └── js/                 ← Main JS & Admin scripts
+│   └── index.php
 └── writable/
-    └── uploads/                ← Folder upload (auto-created)
-        ├── pengaduan/{id}/     ← Foto bukti pengaduan
-        └── profil/             ← Foto profil mahasiswa
+    └── uploads/                ← Direktori file upload foto bukti & profil
 ```
 
 ---
 
 ## 🗺️ Routing Utama
 
-| URL | Keterangan |
-|---|---|
-| `/auth/login` | Login mahasiswa |
-| `/auth/register` | Registrasi mahasiswa |
-| `/admin/auth/login` | Login admin/petugas |
-| `/mahasiswa/dashboard` | Dashboard mahasiswa |
-| `/mahasiswa/pengaduan/buat` | Form buat pengaduan |
-| `/admin/dashboard` | Dashboard admin |
-| `/admin/pengaduan` | Daftar semua pengaduan |
-| `/api/ruangan/{id}` | AJAX: ruangan by gedung |
-| `/api/barang/{id}` | AJAX: barang by ruangan |
+| URL | Method | Akses | Keterangan |
+|---|---|---|---|
+| `/auth/login` | GET/POST | Publik | Halaman Login Mahasiswa |
+| `/auth/register` | GET/POST | Publik | Halaman Registrasi Mahasiswa |
+| `/admin/auth/login` | GET/POST | Publik | Halaman Login Admin / Super Admin / Petugas |
+| `/mahasiswa/dashboard` | GET | Mahasiswa | Dashboard Statistik Mahasiswa |
+| `/mahasiswa/pengaduan/buat` | GET/POST | Mahasiswa | Form Buat Pengaduan Fasilitas |
+| `/petugas/dashboard` | GET | Petugas | Portal Petugas — Daftar Tugas Penanganan |
+| `/admin/dashboard` | GET | Admin / Super Admin | Dashboard Utama Admin |
+| `/admin/pengaduan` | GET | Admin / Super Admin | Verifikasi & Penugasan Petugas |
+| `/admin/barang` | GET | Admin / Super Admin | Manajemen Inventaris Barang |
+| `/admin/barang/cetak/preview` | GET | Super Admin | Halaman Live Preview Cetak & Pilih Ruangan |
+| `/admin/barang/cetak/pdf` | GET | Super Admin | Download Laporan Inventaris format PDF |
+| `/admin/barang/cetak/docx` | GET | Super Admin | Download Laporan Inventaris format DOCX |
+| `/admin/barang/cetak/xlsx` | GET | Super Admin | Download Laporan Inventaris format XLSX |
 
 ---
 
-## 📱 Notifikasi WhatsApp (Fonnte)
+## 📱 Alur Notifikasi WhatsApp (Fonnte)
 
-Notifikasi WhatsApp otomatis dikirim ke **semua petugas aktif yang memiliki nomor WA** saat:
-- Ada pengaduan baru masuk dari mahasiswa
+1. **Pengaduan Baru (Mahasiswa → Admin/Super Admin)**:
+   Saat mahasiswa mengirim pengaduan baru, notifikasi WA dikirim ke semua akun **Admin & Super Admin** yang memiliki nomor WA aktif.
+2. **Penugasan Petugas (Admin/Super Admin → Petugas)**:
+   Saat Admin/Super Admin memverifikasi pengaduan dan menugaskan petugas, notifikasi WA dikirim langsung ke nomor WA **Petugas** yang ditunjuk.
+3. **Laporan Progres (Petugas → Admin/Super Admin)**:
+   Saat Petugas memperbarui progres penanganan (beserta foto bukti), notifikasi WA dikirim ke **Admin & Super Admin** untuk verifikasi kelayakan fasilitas.
 
-Format nomor WA petugas di database: `628xxxxxxx` (tanpa tanda `+`)
+> ℹ️ *Format nomor WA di database menggunakan awalan `628xxxxxxx` (tanpa tanda `+` atau `08`).*
+
+---
+
+## 🖨️ Fitur Cetak & Preview Inventaris Barang
+
+- **Akses Terbatas**: Khusus akun berpangkat `super_admin`.
+- **Halaman Live Preview**: Memungkinkan pengguna memilih gedung dan mencentang beberapa ruangan (*multi-select*), melihat tampilan dokumen cetak secara langsung di browser dengan kontrol *Zoom In/Out*, lalu memilih format unduhan.
+- **Standar Format Dokumen**:
+  - Font: **Times New Roman**
+  - Kop Surat: **STIKOM Tunas Bangsa** dengan 2 Logo Kampus (*behind text*) di posisi kiri dan kanan.
+  - Detail Ruangan: Tipe Ruangan, Lokasi (Gedung & Lantai), Nama Ruangan, dan Tabel Daftar Barang.
+  - Legalitas: Catatan aturan pemindahan barang + Kolom Tanda Tangan Ketua STIKOM Tunas Bangsa & Wakil Ketua 2.
 
 ---
 
 ## 🐛 Troubleshooting
 
-**❌ Error 404 setelah instalasi**
-- Pastikan `mod_rewrite` Apache aktif di XAMPP
-- Cek file `.htaccess` di folder `public/`
-
-**❌ Database connection failed**
-- Pastikan MySQL XAMPP sudah running
-- Cek nama database, username, password di `.env`
-
-**❌ Foto tidak bisa diupload**
-- Pastikan folder `writable/uploads/` ada dan writable
-- Cek `upload_max_filesize` dan `post_max_size` di `php.ini` (min 5M)
+**❌ Error PDF / Gambar tidak muncul pada laporan cetak**
+- Pastikan ekstensi PHP GD telah diaktifkan di file `php.ini` (`extension=gd`).
 
 **❌ Notifikasi WA tidak terkirim**
-- Pastikan token Fonnte sudah diisi di `.env`
-- Pastikan nomor WA petugas format `628xxx` (bukan `08xxx`)
-- Cek log error CI4 di `writable/logs/`
+- Pastikan `app.fonnteToken` di file `.env` telah diisi dengan token aktif dari Fonnte.
+- Pastikan format nomor telepon petugas/admin di database menggunakan format internasional (contoh: `628123456789`).
+
+**❌ Sesi masih bisa diakses setelah Logout saat menekan tombol Back browser**
+- Sistem telah dilengkapi guard BFCache & header anti-cache. Jika mengalami caching lokal pada browser, lakukan clear browser cache/hard refresh (`Ctrl + F5`).
 
 ---
 
-## 📞 Kontak
+## 📞 Kontak & Informasi
 
-Dikembangkan untuk **STIKOM Tunas Bangsa** — Pematangsiantar, Sumatera Utara.
+Dikembangkan untuk **STIKOM Tunas Bangsa** Pematangsiantar, Sumatera Utara.
