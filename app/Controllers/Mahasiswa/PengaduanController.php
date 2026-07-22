@@ -22,7 +22,8 @@ class PengaduanController extends BaseController
     protected RuanganModel         $ruanganModel;
     protected BarangModel          $barangModel;
     protected KategoriPengaduanModel $kategoriModel;
-    protected PetugasModel         $petugasModel;
+    protected StatusPengaduanModel   $statusModel;
+    protected PetugasModel           $petugasModel;
 
     public function __construct()
     {
@@ -34,10 +35,10 @@ class PengaduanController extends BaseController
         $this->ruanganModel   = new RuanganModel();
         $this->barangModel    = new BarangModel();
         $this->kategoriModel  = new KategoriPengaduanModel();
+        $this->statusModel    = new StatusPengaduanModel();
         $this->petugasModel   = new PetugasModel();
     }
 
-    // Riwayat Pengaduan
     public function index()
     {
         $nim   = session()->get('mahasiswa_nim');
@@ -50,7 +51,6 @@ class PengaduanController extends BaseController
         ]);
     }
 
-    // Form Buat Pengaduan
     public function create()
     {
         return view('mahasiswa/pengaduan/create', [
@@ -61,7 +61,6 @@ class PengaduanController extends BaseController
         ]);
     }
 
-    // Simpan Pengaduan
     public function store()
     {
         $nim = session()->get('mahasiswa_nim');
@@ -79,26 +78,21 @@ class PengaduanController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Validasi file foto
-        $files = $this->request->getFiles();
+        $files     = $this->request->getFiles();
         $fotoFiles = $files['foto_bukti'] ?? [];
 
-        // Tangani single atau multiple file
         if (!is_array($fotoFiles)) {
             $fotoFiles = [$fotoFiles];
         }
 
-        // Filter file yang valid (ada nama dan bukan error)
         $validFotos = [];
         foreach ($fotoFiles as $file) {
             if ($file && $file->isValid() && !$file->hasMoved()) {
-                // Validasi tipe
                 $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
                 if (!in_array($file->getMimeType(), $allowedMimes)) {
                     return redirect()->back()->withInput()
                         ->with('error', 'Hanya file gambar (JPG, PNG, GIF, WEBP) yang diizinkan.');
                 }
-                // Validasi ukuran (1MB = 1048576 bytes)
                 if ($file->getSize() > 1048576) {
                     return redirect()->back()->withInput()
                         ->with('error', 'Ukuran setiap foto maksimal 1MB.');
@@ -113,8 +107,7 @@ class PengaduanController extends BaseController
                 ->with('error', 'Maksimal 3 foto yang dapat diunggah.');
         }
 
-        // Buat kode pengaduan unik
-        $kode = $this->pengaduanModel->generateKode();
+        $kode        = $this->pengaduanModel->generateKode();
 
         $idBarang = $this->request->getPost('id_barang');
         $idBarang = (!empty($idBarang) && is_numeric($idBarang)) ? (int)$idBarang : null;
@@ -128,7 +121,7 @@ class PengaduanController extends BaseController
             'judul'             => $this->request->getPost('judul'),
             'deskripsi'         => $this->request->getPost('deskripsi'),
             'prioritas'         => $this->request->getPost('prioritas'),
-            'id_status_saat_ini'=> 1, // Menunggu Verifikasi
+            'id_status_saat_ini' => 1,
         ];
 
         $idPengaduan = $this->pengaduanModel->insert($dataInsert, true);
@@ -173,7 +166,6 @@ class PengaduanController extends BaseController
             ->with('success', 'Pengaduan berhasil dikirim! Kode: ' . $kode);
     }
 
-    // Detail Pengaduan
     public function show(int $id)
     {
         $nim        = session()->get('mahasiswa_nim');
@@ -183,10 +175,9 @@ class PengaduanController extends BaseController
             return redirect()->to(base_url('mahasiswa/pengaduan'))->with('error', 'Pengaduan tidak ditemukan.');
         }
 
-        $fotos       = $this->fotoModel->getByPengaduan($id);
-        $logs        = $this->logModel->getByPengaduan($id);
-        $statusModel = new StatusPengaduanModel();
-        $allStatus   = $statusModel->getOrdered();
+        $fotos     = $this->fotoModel->getByPengaduan($id);
+        $logs      = $this->logModel->getByPengaduan($id);
+        $allStatus = $this->statusModel->getOrdered();
 
         return view('mahasiswa/pengaduan/detail', [
             'title'     => 'Detail Pengaduan',

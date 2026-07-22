@@ -1,0 +1,27 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.pagination-item {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.pagination-item:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.pagination-item.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}

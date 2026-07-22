@@ -1,0 +1,82 @@
+/* ============================================================
+   APP.CSS — MASTER ENTRY POINT
+   ============================================================ */
+
+/* 1. Base */
+@import "./base/variables.css";
+@import "./base/reset.css";
+@import "./base/typography.css";
+@import "./base/animation.css";
+@import "./base/scrollbar.css";
+@import "./base/base.css";
+
+/* 2. Themes */
+@import "./themes/light.css";
+@import "./themes/dark.css";
+
+/* 3. Layout */
+@import "./layout/container.css";
+@import "./layout/sidebar.css";
+@import "./layout/header.css";
+@import "./layout/navbar.css";
+@import "./layout/footer.css";
+@import "./layout/grid.css";
+
+/* 4. Components */
+@import "./components/button.css";
+@import "./components/card.css";
+@import "./components/modal.css";
+@import "./components/badge.css";
+@import "./components/table.css";
+@import "./components/form.css";
+@import "./components/input.css";
+@import "./components/select.css";
+@import "./components/dropdown.css";
+@import "./components/pagination.css";
+@import "./components/alert.css";
+@import "./components/toast.css";
+@import "./components/breadcrumb.css";
+@import "./components/tabs.css";
+@import "./components/timeline.css";
+@import "./components/status.css";
+@import "./components/upload.css";
+@import "./components/image-preview.css";
+@import "./components/loading.css";
+
+/* 5. Pages */
+/* Auth */
+@import "./pages/auth/login.css";
+@import "./pages/auth/register.css";
+
+/* Mahasiswa */
+@import "./pages/mahasiswa/dashboard.css";
+@import "./pages/mahasiswa/pengaduan-create.css";
+@import "./pages/mahasiswa/pengaduan-detail.css";
+@import "./pages/mahasiswa/histori.css";
+@import "./pages/mahasiswa/profile.css";
+
+/* Petugas */
+@import "./pages/petugas/dashboard.css";
+@import "./pages/petugas/tugas.css";
+@import "./pages/petugas/progress.css";
+@import "./pages/petugas/laporan.css";
+
+/* Admin */
+@import "./pages/admin/dashboard.css";
+@import "./pages/admin/pengaduan.css";
+@import "./pages/admin/mahasiswa.css";
+@import "./pages/admin/petugas.css";
+@import "./pages/admin/gedung.css";
+@import "./pages/admin/ruangan.css";
+@import "./pages/admin/barang.css";
+@import "./pages/admin/inventaris-preview.css";
+@import "./pages/admin/inventaris-print.css";
+@import "./pages/admin/setting.css";
+
+/* 6. Utilities */
+@import "./utilities/flex.css";
+@import "./utilities/spacing.css";
+@import "./utilities/color.css";
+@import "./utilities/text.css";
+@import "./utilities/visibility.css";
+@import "./utilities/helper.css";

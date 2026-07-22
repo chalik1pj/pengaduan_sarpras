@@ -1,0 +1,9 @@
+/* Register Page Specific Styles */
+.register-page {
+  composes: auth-page;
+}
+
+.register-card {
+  composes: auth-card;
+  max-width: 500px;
+}

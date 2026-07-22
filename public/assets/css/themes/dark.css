@@ -1,0 +1,12 @@
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --bg-base: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-card: #1e293b;
+  --bg-input: #0f172a;
+  --bg-hover: #334155;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --border: #334155;
+}

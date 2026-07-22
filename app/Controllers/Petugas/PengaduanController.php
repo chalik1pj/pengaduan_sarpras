@@ -12,25 +12,27 @@ use App\Models\PetugasModel;
 
 class PengaduanController extends BaseController
 {
-    protected PengaduanModel    $pengaduanModel;
+    protected PengaduanModel      $pengaduanModel;
+    protected FotoPengaduanModel  $fotoModel;
+    protected LogStatusModel      $logModel;
     protected LaporanPetugasModel $laporanModel;
-    protected FotoLaporanModel  $fotoLaporanModel;
+    protected FotoLaporanModel    $fotoLaporanModel;
+    protected PetugasModel        $petugasModel;
 
     public function __construct()
     {
         $this->pengaduanModel   = new PengaduanModel();
+        $this->fotoModel        = new FotoPengaduanModel();
+        $this->logModel         = new LogStatusModel();
         $this->laporanModel     = new LaporanPetugasModel();
         $this->fotoLaporanModel = new FotoLaporanModel();
+        $this->petugasModel     = new PetugasModel();
         helper(['whatsapp', 'url', 'form']);
     }
 
-    /**
-     * Daftar pengaduan yang ditugaskan ke petugas yang sedang login
-     */
     public function index()
     {
         $idPetugas = session()->get('admin_id');
-
         $filterStatus = $this->request->getGet('status') ?? '';
         $search       = $this->request->getGet('q') ?? '';
 
@@ -72,18 +74,10 @@ class PengaduanController extends BaseController
                 ->with('error', 'Pengaduan tidak ditemukan atau bukan tugas Anda.');
         }
 
-        // Ambil foto bukti pengaduan dari mahasiswa
-        $fotoPengaduanModel = new FotoPengaduanModel();
-        $fotosPengaduan = $fotoPengaduanModel->getByPengaduan($id);
+        $fotosPengaduan = $this->fotoModel->getByPengaduan($id);
+        $logs           = $this->logModel->getByPengaduan($id);
+        $laporan        = $this->laporanModel->getByPengaduan($id);
 
-        // Log status
-        $logModel = new LogStatusModel();
-        $logs = $logModel->getByPengaduan($id);
-
-        // Laporan progres yang sudah dikirim untuk pengaduan ini
-        $laporan = $this->laporanModel->getByPengaduan($id);
-
-        // Ambil foto per laporan
         foreach ($laporan as &$lap) {
             $lap['fotos'] = $this->fotoLaporanModel->getByLaporan($lap['id_laporan']);
         }
@@ -163,9 +157,7 @@ class PengaduanController extends BaseController
             }
         }
 
-        // Kirim notifikasi WA ke semua admin & super_admin
-        $petugasModel = new PetugasModel();
-        $adminList = $petugasModel->getAdminList();
+        $adminList = $this->petugasModel->getAdminList();
 
         $laporanData = [
             'id_pengaduan'  => $idPengaduan,

@@ -1,0 +1,137 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: #fafafa;
+}
+
+.card-header h3,
+.card-header h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  transform: translate(20px, -20px);
+}
+
+.stat-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.icon-primary {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.icon-accent {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.icon-danger {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.icon-warning {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.icon-info {
+  background: var(--info-light);
+  color: var(--info);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.kondisi-card {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.kondisi-card:hover {
+  border-color: var(--primary) !important;
+  background: var(--primary-light) !important;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .card-body { padding: 1rem; }
+  .card-header { padding: 0.75rem 1rem; }
+  .card-footer { padding: 0.75rem 1rem; }
+  .stat-card { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .stat-value { font-size: 1.5rem; }
+}

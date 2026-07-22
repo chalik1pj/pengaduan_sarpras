@@ -1,0 +1,11 @@
+.petugas-create-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .petugas-create-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

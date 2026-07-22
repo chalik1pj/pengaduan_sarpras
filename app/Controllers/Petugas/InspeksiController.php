@@ -14,17 +14,18 @@ class InspeksiController extends BaseController
 {
     protected InspeksiFasilitasModel $inspeksiModel;
     protected FotoInspeksiModel      $fotoInspeksiModel;
+    protected GedungModel            $gedungModel;
+    protected PetugasModel           $petugasModel;
 
     public function __construct()
     {
         $this->inspeksiModel     = new InspeksiFasilitasModel();
         $this->fotoInspeksiModel = new FotoInspeksiModel();
+        $this->gedungModel       = new GedungModel();
+        $this->petugasModel      = new PetugasModel();
         helper(['whatsapp', 'url', 'form']);
     }
 
-    /**
-     * Daftar inspeksi yang dibuat petugas ini
-     */
     public function index()
     {
         $idPetugas = session()->get('admin_id');
@@ -42,22 +43,15 @@ class InspeksiController extends BaseController
         ]);
     }
 
-    /**
-     * Form buat inspeksi baru
-     */
     public function create()
     {
-        $gedungModel = new GedungModel();
         return view('petugas/inspeksi/create', [
             'title'  => 'Buat Inspeksi Fasilitas',
             'active' => 'inspeksi',
-            'gedung' => $gedungModel->orderBy('nama_gedung','ASC')->findAll(),
+            'gedung' => $this->gedungModel->orderBy('nama_gedung', 'ASC')->findAll(),
         ]);
     }
 
-    /**
-     * Simpan inspeksi baru + upload foto
-     */
     public function store()
     {
         $idPetugas = session()->get('admin_id');
@@ -112,17 +106,13 @@ class InspeksiController extends BaseController
             }
         }
 
-        // Ambil detail ruangan/gedung/barang untuk notifikasi WA
         $inspeksiData = $this->inspeksiModel->getOneWithDetail($idInspeksi);
 
         if ($inspeksiData) {
             $inspeksiData['nama_petugas'] = session()->get('admin_nama');
             $inspeksiData['created_at']   = date('d M Y H:i');
             $inspeksiData['nama_barang']  = $inspeksiData['nama_barang'] ?? 'Umum/Ruangan';
-
-            $petugasModel = new PetugasModel();
-            $adminList = $petugasModel->getAdminList();
-
+            $adminList = $this->petugasModel->getAdminList();
             notifikasi_inspeksi_fasilitas($inspeksiData, $adminList);
         }
 
@@ -130,9 +120,6 @@ class InspeksiController extends BaseController
             ->with('success', 'Laporan inspeksi fasilitas berhasil dikirim. Admin akan segera memverifikasi.');
     }
 
-    /**
-     * Detail inspeksi
-     */
     public function show(int $id)
     {
         $idPetugas = session()->get('admin_id');

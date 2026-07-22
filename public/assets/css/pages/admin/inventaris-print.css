@@ -1,0 +1,21 @@
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .sidebar, .topbar, .btn, .filter-bar {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+
+  .preview-page {
+    box-shadow: none !important;
+    padding: 0 !important;
+    page-break-after: always;
+  }
+}

@@ -28,7 +28,7 @@
       <label class="form-label" for="nim">NIM / Email <span class="required">*</span></label>
       <div class="input-group">
         <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <input type="text" id="nim" name="nim" class="form-control" placeholder="Masukkan NIM atau Email" value="<?= old('nim') ?>" required autocomplete="username">
+        <input type="text" id="nim" name="nim" class="form-control" placeholder="Masukkan NIM atau Email" value="<?= old('nim') ?>" required autocomplete="username" autofocus>
       </div>
     </div>
 
