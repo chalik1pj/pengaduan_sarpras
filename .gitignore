@@ -126,3 +126,15 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+# uploads
+public/uploads/inspeksi/*
+!public/uploads/inspeksi/.gitkeep
+
+public/uploads/laporan/*
+!public/uploads/laporan/.gitkeep
+
+public/uploads/pengaduan/*
+!public/uploads/pengaduan/.gitkeep
+
+public/uploads/profil/*
+!public/uploads/profil/.gitkeep

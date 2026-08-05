@@ -44,7 +44,7 @@
             <select id="id_barang" name="id_barang" class="form-control">
               <option value="">-- Tidak spesifik (keluhan umum ruangan) --</option>
             </select>
-            <span class="form-text">Opsional — pilih jika ada barang tertentu yang bermasalah</span>
+            <span class="form-text">Opsional pilih jika ada barang tertentu yang bermasalah</span>
           </div>
         </div>
       </div>
